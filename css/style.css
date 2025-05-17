@@ -1,0 +1,1513 @@
+/* General Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #1eae98;
+  --secondary-color: #3e92cc;
+  --heading-color: #0a2463;
+  --text-color: #333;
+  --light-bg: #f9f9f9;
+  --dark-bg: #0d2146;
+  --white: #fff;
+  --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+  --card-shadow-light: 0 2px 8px rgba(0, 0, 0, 0.07);
+  --border-color: #e1e1e1;
+  --primary-color-light: rgba(30, 174, 152, 0.12);
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--light-bg);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+/* Layout Structure */
+.page-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--heading-color);
+  margin-bottom: 0.75em;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h1 {
+  font-size: 3rem;
+}
+h2 {
+  font-size: 2.2rem;
+}
+h3 {
+  font-size: 1.6rem;
+}
+
+p {
+  margin-bottom: 1em;
+  color: var(--text-color);
+}
+
+a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--primary-color);
+}
+
+ul {
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+/* Header & Navigation */
+header {
+  background-color: transparent;
+  padding: 20px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease,
+    padding 0.4s ease;
+  box-shadow: none;
+}
+
+header.scrolled {
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--heading-color);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 5px;
+  border-radius: 5px;
+  transition: var(--transition);
+}
+
+.logo-img {
+  max-height: 55px;
+  width: auto;
+  transition: max-height 0.3s ease;
+}
+
+header.scrolled .logo-img {
+  max-height: 50px;
+}
+
+.logo:hover {
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin-left: 25px;
+}
+
+.nav-links a {
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+header.scrolled .nav-links a {
+  color: var(--heading-color);
+  text-shadow: none;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+header.scrolled .nav-links a::after {
+  background-color: var(--primary-color);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 60%;
+}
+
+.nav-links a.active {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.nav-toggle {
+  display: none; /* Hidden by default, shown in media query */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px; /* Increase tappable area */
+  position: relative; /* For z-index and potential positioning of children */
+  /* z-index: 1001; Will be set in media query where it's display:block */
+  /* Ensure it has dimensions even if span inside is small */
+  width: 44px;
+  height: 44px;
+  margin-right: -10px; /* If it seems too far from the edge */
+}
+
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  content: "";
+  display: block;
+  background-color: white; /* Default color for transparent header */
+  height: 3px; /* Slightly thicker bars */
+  width: 28px; /* Slightly longer bars */
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2); /* Subtle shadow for visibility on image */
+}
+
+header.scrolled .hamburger,
+header.scrolled .hamburger::before,
+header.scrolled .hamburger::after {
+  background-color: var(--heading-color); /* Dark color for scrolled header */
+  box-shadow: none; /* No shadow needed on white background */
+}
+
+.hamburger::before {
+  transform: translateY(-8px); /* Spacing for bars */
+}
+
+.hamburger::after {
+  transform: translateY(8px); /* Spacing for bars */
+}
+
+/* Hero Section (Homepage) */
+.hero {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../images/Humboldt_State_Park_3b3a58f3-bd5d-4eab-9417-cfc8aaa02903.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: white;
+  padding-top: 140px;
+  padding-bottom: 120px;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  margin-bottom: 0;
+}
+
+.hero-logo {
+  display: block;
+  max-height: 100px;
+  width: auto;
+  margin: 0 auto 2.5rem;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.8));
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-content {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  color: white;
+  margin-bottom: 0.8em;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 1);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.hero .subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 2.5rem;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 1);
+  background-color: rgba(0, 0, 0, 0.55);
+  padding: 15px 25px;
+  border-radius: 8px;
+  font-weight: 500;
+  color: white;
+  line-height: 1.5;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  text-align: center;
+  animation: bounce 2s infinite;
+  color: white;
+  background-color: rgba(30, 174, 152, 0.85);
+  padding: 12px 20px;
+  border-radius: 30px;
+  z-index: 5;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-indicator:hover {
+  background-color: rgba(30, 174, 152, 1);
+  transform: translateX(-50%) translateY(-3px);
+}
+
+.scroll-indicator span {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  font-weight: 500;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.scroll-indicator i {
+  font-size: 1.4rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Parallax sections */
+.parallax-section {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.parallax-cta {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../images/Humboldt_State_Park_3b3a58f3-bd5d-4eab-9417-cfc8aaa02903.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  color: white;
+  padding: 6rem 0;
+}
+
+.parallax-cta h2 {
+  color: white !important;
+  font-size: 2.8rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  display: inline-block;
+  line-height: 1.3;
+}
+
+.parallax-cta p {
+  color: white;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.85);
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
+}
+
+/* Fix padding for sections to ensure clean break from hero */
+main {
+  background-color: white;
+  position: relative;
+  z-index: 3;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.section-padding {
+  padding: 5rem 0;
+  position: relative;
+  background-color: white;
+  z-index: 2;
+}
+
+.section-padding-bg {
+  padding: 5rem 0;
+  background-color: var(--white);
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  z-index: 2;
+}
+
+/* Button centering and visibility */
+.btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.4s ease;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  position: relative;
+  z-index: 5;
+}
+
+.hero .btn-primary {
+  padding: 1.1rem 2.2rem;
+  font-size: 1.1rem;
+  background-color: var(--primary-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+  background-color: #17ab8c;
+  text-decoration: none;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  color: white;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--secondary-color);
+  border: 2px solid var(--secondary-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-color);
+  color: white;
+  text-decoration: none;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.btn-large {
+  padding: 1.1rem 2.2rem;
+  font-size: 1rem;
+}
+
+/* General Section Styling */
+.text-center {
+  text-align: center;
+}
+
+.lead-text {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Service Cards */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 3rem;
+  padding-bottom: 1rem;
+}
+
+.service-card {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 2rem;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.service-icon {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1.25rem;
+}
+
+.service-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  transition: var(--transition);
+  color: var(--heading-color);
+}
+
+.service-card p {
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Features */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 2rem;
+}
+
+.feature-item {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.feature-item h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  transition: var(--transition);
+  color: var(--heading-color);
+}
+
+.feature-item p {
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Page Header for Interior Pages (e.g., About, Services) */
+.page-header {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    /* Slightly darker overlay than hero */
+      url("../images/Humboldt_State_Park_3b3a58f3-bd5d-4eab-9417-cfc8aaa02903.jpg"); /* Using same BG as hero */
+  background-size: cover;
+  background-position: center 60%; /* Adjust position to show a different part of the image */
+  background-attachment: fixed;
+  color: white;
+  padding: 120px 0 80px; /* Adjust padding: more top for nav, less bottom than main hero */
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0;
+}
+
+.page-header h1 {
+  font-size: 3rem; /* Slightly smaller than main hero H1 */
+  color: white;
+  margin-bottom: 0.5em;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+  font-weight: 700;
+}
+
+.page-header p {
+  font-size: 1.3rem; /* Subtitle size */
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Ensure content after page-header has enough top padding to clear fixed nav */
+.about-content,
+.services-content, /* Add for services page later if needed */
+.helpful-hints-content, /* Add for hints page later */
+.contact-page-content {
+  /* Add for contact page later */
+  padding-top: 2rem; /* Initial padding, might need adjustment based on fixed header height */
+}
+
+/* Adjust main content wrapper for interior pages if it follows a .page-header */
+main > .page-header + .content-wrapper > section:first-child,
+main > section.page-header + section.container {
+  padding-top: 120px; /* Space for fixed header when page starts with page-header */
+}
+
+main > .content-wrapper > section:first-child,
+main > section.container:first-child {
+  /* This rule applies if the page doesn't have a .page-header hero */
+  /* For example, if a page starts directly with content and only has the fixed nav */
+  padding-top: 120px;
+}
+
+/* Specific adjustment for .about-content when it's the first main content block */
+main > section.page-header + section.container > .about-content {
+  padding-top: 0; /* Reset if wrapped in container that already got padding */
+}
+
+/* Remove default padding for #about-snippet if it's used on an interior page */
+/* (It has its own padding for homepage context) */
+.page-header + .content-wrapper #about-snippet {
+  padding-top: 2rem; /* Override homepage specific padding */
+}
+
+/* About Page */
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem; /* Increased gap */
+}
+
+@media (min-width: 768px) {
+  .about-content {
+    grid-template-columns: 2fr 1fr; /* Main content wider than sidebar */
+  }
+}
+
+.about-content article h2 {
+  color: var(--heading-color);
+  font-size: 2rem; /* Consistent heading size */
+  margin-bottom: 1rem;
+  margin-top: 2rem; /* Add space above headings */
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-color-light); /* Subtle underline */
+  display: flex;
+  align-items: center;
+}
+
+.about-icon {
+  color: var(--primary-color);
+  margin-right: 12px;
+  font-size: 1.5rem;
+}
+
+.about-content article h2:first-of-type {
+  margin-top: 0; /* No top margin for the very first h2 in the article */
+}
+
+.about-content article p {
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  color: var(--text-color);
+}
+
+.about-content article ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.about-content article ul li {
+  padding-left: 2.2rem; /* Space for icon */
+  margin-bottom: 1rem;
+  position: relative;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.about-content article ul li::before {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900; /* Solid icons */
+  position: absolute;
+  left: 0;
+  top: 0.1em; /* Align icon nicely with text */
+  color: var(--primary-color);
+  font-size: 1.2rem; /* Icon size */
+}
+
+/* Specific icons for "Why We Stand Out" list */
+.about-content article ul li:nth-child(1)::before {
+  content: "\e1a3";
+} /* map-pin - Local Expertise */
+.about-content article ul li:nth-child(2)::before {
+  content: "\f0c0";
+} /* users - Experienced Team */
+.about-content article ul li:nth-child(3)::before {
+  content: "\f4fc";
+} /* comments-dollar - Customer-Focused (using a generic communication/value icon) */
+.about-content article ul li:nth-child(4)::before {
+  content: "\f3ed";
+} /* hard-hat - Commitment to Safety */
+
+.contact-sidebar {
+  background-color: var(--light-gray);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow-light);
+  align-self: start; /* Align to the start of the grid cell if content is shorter */
+}
+
+.contact-sidebar h3 {
+  font-size: 1.5rem;
+  color: var(--heading-color);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.contact-sidebar p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.contact-sidebar .btn-primary {
+  display: block; /* Make button full width of sidebar */
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+/* Services Page - Detailed Grid */
+.services-detailed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.service-detail-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 5px solid #3e92cc; /* Accent border */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.service-detail-card h3 {
+  color: #0a2463;
+}
+
+/* Helpful Hints Page */
+.hint-item {
+  background: #fff;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  border-left: 5px solid var(--primary-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hint-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.hint-icon {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.warning-icon {
+  color: #f0ad4e; /* Warning color for the disclaimer icon */
+}
+
+.hint-item h3 {
+  color: var(--heading-color);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.hint-item ul {
+  list-style-type: disc;
+  padding-left: 25px;
+  margin-top: 0.5rem;
+}
+
+.hint-item ul li {
+  margin-bottom: 0.5rem;
+}
+
+.disclaimer-box {
+  background-color: #fff3cd; /* Light yellow for disclaimer */
+  color: #856404;
+  padding: 2rem;
+  border-radius: 8px;
+  border-left: 5px solid #f0ad4e;
+  margin-top: 2rem;
+  position: relative;
+  box-shadow: var(--card-shadow-light);
+}
+
+.disclaimer-box h3 {
+  color: #856404;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Contact Page */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.contact-info ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.contact-info ul li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: baseline;
+}
+
+.contact-icon {
+  color: var(--primary-color);
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.contact-icon-list {
+  color: var(--primary-color);
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+.contact-form-container h2 {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.contact-form-container p {
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #f9f9f9;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(30, 174, 152, 0.15);
+  background-color: #fff;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.map-container {
+  margin-top: 2rem;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.map-container:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 350px;
+  border: none;
+  display: block;
+}
+
+/* Testimonials Section */
+#testimonials {
+  background-color: #f9f9f9;
+  position: relative;
+  overflow: hidden;
+}
+
+#testimonials h2 {
+  margin-bottom: 3rem;
+  position: relative;
+  display: inline-block;
+}
+
+#testimonials h2:after {
+  content: "";
+  position: absolute;
+  width: 80px;
+  height: 3px;
+  background-color: var(--primary-color);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.testimonial-card {
+  background-color: var(--light-gray);
+  padding: 2.5rem 2rem 2rem;
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+  height: 100%;
+}
+
+.testimonial-card::before {
+  content: "\201C";
+  position: absolute;
+  top: 0.5rem;
+  left: 0.75rem;
+  font-size: 4rem;
+  color: rgba(0, 0, 0, 0.08);
+  line-height: 1;
+  z-index: 0;
+}
+
+.testimonial-text {
+  font-style: italic;
+  color: var(--text-color-light);
+  margin-bottom: 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  flex-grow: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-meta {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.testimonial-author {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.stars {
+  color: #ffd700;
+  font-size: 1.1rem;
+}
+
+/* Footer */
+footer.footer-modern {
+  background-color: var(--dark-bg);
+  color: #eaeaea;
+  padding: 4rem 0 2rem;
+  position: relative;
+  z-index: 5;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  margin-bottom: 2rem;
+}
+
+.footer-col h4 {
+  color: white;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.footer-col h4::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background-color: var(--primary-color);
+}
+
+.footer-col p,
+.footer-col ul li {
+  margin-bottom: 0.85rem;
+  line-height: 1.7;
+  color: #c5c5c5;
+}
+
+.footer-col p i {
+  margin-right: 10px;
+  color: var(--primary-color);
+  width: 20px;
+  text-align: center;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col a {
+  color: #e0e0e0;
+  transition: var(--transition);
+  display: inline-block;
+}
+
+.footer-col a:hover {
+  color: white;
+  text-decoration: none;
+  transform: translateX(5px);
+}
+
+.social-links li {
+  margin-bottom: 1rem;
+}
+
+.social-links a {
+  color: #d5d5d5;
+  display: flex;
+  align-items: center;
+}
+
+.social-links a i {
+  margin-right: 10px;
+  color: var(--primary-color);
+  width: 20px;
+  text-align: center;
+}
+
+.social-links a:hover {
+  color: white;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+}
+
+.footer-bottom p {
+  color: #b0b0b0;
+}
+
+/* Animation classes */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  .hero-content h1 {
+    font-size: 2.8rem;
+  }
+
+  .hero .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .contact-info,
+  .contact-form-container {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  .logo-img {
+    max-height: 40px;
+  }
+
+  .hero {
+    min-height: 100vh;
+    padding: 90px 0 100px;
+    background-attachment: scroll;
+  }
+
+  .hero-logo {
+    max-height: 90px;
+    margin-bottom: 1.5rem;
+    padding: 10px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5em;
+  }
+
+  .hero .subtitle {
+    font-size: 1.1rem;
+    padding: 12px 15px;
+    margin-bottom: 1.8rem;
+  }
+
+  .scroll-indicator {
+    bottom: 20px;
+    padding: 10px 15px;
+    width: 150px;
+  }
+
+  .hero .btn-primary {
+    padding: 0.9rem 1.8rem;
+    font-size: 1rem;
+  }
+
+  .nav-toggle {
+    display: block;
+    z-index: 1002; /* Highest z-index, above menu (1000) and scrolled header (1000) */
+  }
+
+  .nav-toggle.active .hamburger {
+    background-color: transparent; /* Center bar disappears for X */
+    box-shadow: none;
+  }
+
+  .nav-toggle.active .hamburger::before {
+    transform: translateY(0px) rotate(45deg);
+    top: auto; /* Reset top if previously set for hamburger state */
+    background-color: var(--heading-color); /* X should be dark on white menu */
+    box-shadow: none;
+  }
+
+  .nav-toggle.active .hamburger::after {
+    transform: translateY(0px) rotate(-45deg);
+    bottom: auto; /* Reset bottom if previously set for hamburger state */
+    opacity: 1; /* Ensure it's visible for X */
+    background-color: var(--heading-color); /* X should be dark on white menu */
+    box-shadow: none;
+  }
+
+  .nav-links {
+    position: fixed;
+    background-color: var(--white);
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 85%; /* Slightly wider */
+    max-width: 320px; /* Slightly wider max */
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother transition */
+    box-shadow: -8px 0 25px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+    z-index: 1000; /* Same as header, but toggle needs to be higher if it stays separate */
+    /* If toggle is part of the menu structure or hides, this is fine */
+    padding: 3rem 1.5rem; /* More padding */
+    overflow-y: auto; /* Allow scrolling if links exceed screen height */
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links li {
+    margin: 0; /* Remove individual margin, use padding on <a> */
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    font-size: 1.3rem; /* Larger font size */
+    padding: 1.2rem 1rem; /* More padding for easier tapping */
+    color: var(
+      --heading-color
+    ) !important; /* IMPORTANT: Force dark color on white menu */
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-color); /* Separator */
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .nav-links li:last-child a {
+    border-bottom: none; /* No border for the last item */
+  }
+
+  .nav-links a:hover,
+  .nav-links a:focus {
+    background-color: var(--primary-color-light);
+    color: var(--primary-color) !important;
+  }
+
+  /* Override for active link in mobile menu */
+  .nav-links a.active {
+    background-color: var(--primary-color);
+    color: white !important;
+    font-weight: 600;
+  }
+
+  /* Ensure header.scrolled styles for links don't interfere when mobile menu is open */
+  header.scrolled .nav-links.active a {
+    color: var(--heading-color) !important; /* Keep it dark */
+  }
+  header.scrolled .nav-links.active a.active {
+    color: white !important; /* Keep active link white on primary bg */
+  }
+
+  .services-grid,
+  .features-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .contact-sidebar {
+    margin-bottom: 2rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: left;
+  }
+
+  .footer-col h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col h4::after {
+    left: 0;
+    margin-left: 0;
+  }
+
+  .section-padding,
+  .section-padding-bg {
+    padding: 3rem 0;
+  }
+
+  .section-divider {
+    height: 60px;
+  }
+
+  #about-snippet {
+    margin-top: -15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    width: 95%;
+  }
+
+  .hero {
+    padding: 80px 0 80px;
+    min-height: 100vh;
+  }
+
+  .hero-logo {
+    max-height: 80px;
+    margin-bottom: 1.2rem;
+    padding: 8px;
+  }
+
+  .hero-content h1 {
+    font-size: 1.9rem;
+    margin-bottom: 0.5em;
+  }
+
+  .hero .subtitle {
+    font-size: 1rem;
+    padding: 10px 15px;
+    margin-bottom: 1.5rem;
+  }
+
+  .scroll-indicator {
+    width: 140px;
+    padding: 8px 12px;
+    bottom: 15px;
+  }
+
+  .hero .btn-primary {
+    padding: 0.8rem 1.6rem;
+    font-size: 0.9rem;
+  }
+
+  #about-snippet {
+    margin-top: -15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+
+  .btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.85rem;
+  }
+
+  .btn-large {
+    padding: 0.9rem 1.8rem;
+  }
+
+  .testimonial-card {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+
+  .contact-info h3 {
+    font-size: 1.3rem;
+  }
+
+  .map-container {
+    margin-top: 1.5rem;
+  }
+
+  .map-container iframe {
+    height: 300px;
+  }
+
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+}
+
+/*
+Further Enhancements for "Stunning" Visuals (Conceptual):
+- Professional Logo: Replace text logo with an actual `images/logo.png`.
+- High-Quality Imagery: 
+    - Hero Background: Use a compelling, relevant image (e.g., clean electrical work, Arcata landscape with a subtle power theme).
+    - Service Icons: Custom SVG icons for each service in `.services-grid` and `.service-detail-card`.
+    - About Us Page: A picture of the team, Peter Brant, or the work van.
+    - General: Subtle background textures or patterns for some sections.
+- Advanced Animations & Transitions: 
+    - Scroll-triggered animations (elements fading/sliding in).
+    - More interactive hover effects on cards and buttons.
+- Custom Font: A professional web font from Google Fonts or Adobe Fonts for better branding.
+- Color Palette Refinement: Test and refine colors for accessibility and visual harmony. Potentially use a color palette generator for ideas.
+- Microinteractions: Small visual feedback on user actions (e.g., button clicks, form submissions).
+- Favicon: Implement `favicon.ico`.
+- Interactive Map: Embed a real Google Map on the contact page.
+- Testimonials Section: If content becomes available, style it attractively (e.g., cards with quotes and photos).
+*/
+
+#about-snippet,
+#services-overview,
+#why-choose-us,
+#testimonials,
+#cta {
+  scroll-margin-top: 80px;
+}
+
+#about-snippet {
+  padding-top: 100px;
+  background-color: transparent;
+  position: relative;
+  z-index: 4;
+  margin-top: 0;
+}
+
+/* Remove unnecessary dividers */
+.section-divider {
+  display: none;
+}
+
+.content-wrapper {
+  background-color: white;
+  position: relative;
+  z-index: 2;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.12);
+  margin-top: 0;
+}
+
+/* Set proper scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Fix section headings */
+.section-padding h2,
+.section-padding-bg h2 {
+  color: var(--heading-color);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+/* Style for telephone links */
+.tel-link {
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.tel-link:hover {
+  color: #17ab8c;
+  text-decoration: underline;
+}
+
+.footer-modern .tel-link {
+  color: #a7d7c5;
+}
+
+.footer-modern .tel-link:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.hero .btn-primary:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+  background-color: #17ab8c;
+}
+
+/* Body no-scroll when mobile menu is active */
+body.mobile-menu-active {
+  overflow: hidden;
+}
+
+button.btn-primary {
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+button.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+button.btn-primary i {
+  margin-right: 8px;
+}
