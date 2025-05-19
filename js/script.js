@@ -10,12 +10,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Initialize Rellax for parallax effect
+  // Initialize Rellax for parallax effect - only on desktop/tablet
   if (typeof Rellax !== "undefined" && window.innerWidth >= 768) {
-    // Check if Rellax is defined
+    // Check if Rellax is defined and not on mobile
     const rellax = new Rellax(".parallax-section", {
       speed: -2,
       center: true,
+      breakpoints: [576, 768, 1024],
+    });
+
+    // Re-initialize Rellax on window resize (debounced)
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        // Destroy and recreate Rellax instance on resize
+        if (rellax) {
+          rellax.destroy();
+        }
+
+        // Only reinitialize on larger screens
+        if (window.innerWidth >= 768) {
+          const newRellax = new Rellax(".parallax-section", {
+            speed: -2,
+            center: true,
+            breakpoints: [576, 768, 1024],
+          });
+        }
+      }, 250);
     });
   }
 
@@ -140,14 +162,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Add smooth parallax effect to hero section background
-  if (heroSection) {
+  // Add smooth parallax effect to hero section background - only on desktop/tablet
+  if (heroSection && window.innerWidth >= 768) {
     window.addEventListener("scroll", () => {
       const scrollPosition = window.scrollY;
-      if (
-        scrollPosition < heroSection.offsetHeight &&
-        window.innerWidth >= 768
-      ) {
+      if (scrollPosition < heroSection.offsetHeight) {
         heroSection.style.backgroundPositionY = `calc(50% + ${
           scrollPosition * 0.15
         }px)`;
@@ -155,21 +174,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Add smooth parallax effect to .page-header background (for interior pages)
+  // Add smooth parallax effect to .page-header background - only on desktop/tablet
   const pageHeaderSection = document.querySelector(".page-header");
-  if (pageHeaderSection) {
+  if (pageHeaderSection && window.innerWidth >= 768) {
     window.addEventListener("scroll", () => {
       const scrollPosition = window.scrollY;
       // Only apply effect when the element is somewhat in view and on larger screens
       if (
-        scrollPosition < pageHeaderSection.offsetHeight + window.innerHeight &&
-        window.innerWidth >= 768
+        scrollPosition <
+        pageHeaderSection.offsetHeight + window.innerHeight
       ) {
         const parallaxOffset = Math.max(
           -pageHeaderSection.offsetHeight,
           scrollPosition * 0.15
         );
-        pageHeaderSection.style.backgroundPositionY = `calc(60% + ${parallaxOffset}px)`; // 60% is from CSS
+        pageHeaderSection.style.backgroundPositionY = `calc(60% + ${parallaxOffset}px)`;
       }
     });
   }
